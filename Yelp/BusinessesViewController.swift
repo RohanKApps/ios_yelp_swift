@@ -13,7 +13,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate {
 
     @IBOutlet weak var searchBar: UISearchBar!
     var businesses: [Business]!
-    var names : [String] = ["asianfusion", "burgers"]
+    var spots : [String : String] = [:]
     var input = String()
     var categoryArray : [String] = []
     
@@ -21,15 +21,6 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate {
         super.viewDidLoad()
         searchBar.showsScopeBar = true
         searchBar.delegate = self
-        
-        Business.searchWithTerm("Restaurants", sort: .Distance, categories: names, deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
-            self.businesses = businesses
-            
-            for business in businesses {
-                print(business.name!)
-                print(business.address!)
-            }
-        }
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar){
@@ -40,12 +31,32 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate {
         
         //Take Out first space in the Array
         for(var i = 0; i < categoryArray.count; i++){
+            categoryArray[i] = categoryArray[i].lowercaseString
             if categoryArray[i][0] == " "{
                 categoryArray[i] = String(categoryArray[i].characters.dropFirst())
             }
         }
         
         print(categoryArray)
+        
+        //Implement Yelp API to find restaurants
+        Business.searchWithTerm("Restaurants", sort: .Distance, categories: categoryArray, deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
+            self.businesses = businesses
+            
+            if businesses != nil{
+                for business in businesses {
+                    self.spots[business.name!] = business.address!
+                    print(business.name!)
+                    print(business.address!)
+                }
+            } else {
+                let alertController = UIAlertController(title: "Alert", message:
+                    "No restuarants were found under the query: \(self.input)", preferredStyle: UIAlertControllerStyle.Alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
     }
 
 }
