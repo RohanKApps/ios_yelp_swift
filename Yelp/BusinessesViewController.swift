@@ -9,13 +9,14 @@
 import UIKit
 import MapKit
 
-class BusinessesViewController: UIViewController, UISearchBarDelegate {
+class BusinessesViewController: UIViewController, UISearchBarDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var searchBar: UISearchBar!
     var businesses: [Business]!
     var spots : [String : String] = [:]
     var input = String()
     var categoryArray : [String] = []
+    var location = CLLocation!()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +59,6 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate {
             }
         }
     }
-
 }
 
 //String Extension for getting char at nth location of String
