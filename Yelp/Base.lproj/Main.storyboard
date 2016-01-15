@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Businesses View Controller-->
+        <!--WorstSpots-->
         <scene sceneID="5L9-Uz-lNK">
             <objects>
                 <viewController id="2xI-yr-O5N" customClass="BusinessesViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
@@ -25,17 +25,57 @@
                                     <outlet property="delegate" destination="2xI-yr-O5N" id="BI8-A1-ngO"/>
                                 </connections>
                             </searchBar>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MDm-lf-uA7">
+                                <rect key="frame" x="0.0" y="108" width="600" height="257"/>
+                            </mapView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="G8E-l7-QTb">
+                                <rect key="frame" x="0.0" y="366" width="600" height="234"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyCell" textLabel="xka-qn-eaE" style="IBUITableViewCellStyleDefault" id="EgY-GL-vxB">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EgY-GL-vxB" id="rvT-Ke-Z90">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xka-qn-eaE">
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="2xI-yr-O5N" id="dhn-ws-EA1"/>
+                                    <outlet property="delegate" destination="2xI-yr-O5N" id="wUg-en-wOo"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eyt-lf-WOf" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leadingMargin" constant="-20" id="RIF-07-Wpp"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="eyt-lf-WOf" secondAttribute="trailing" constant="-20" id="ZhE-cX-IhY"/>
-                            <constraint firstItem="eyt-lf-WOf" firstAttribute="top" secondItem="hR0-74-jRp" secondAttribute="bottom" id="xTI-rb-Swj"/>
+                            <constraint firstItem="MDm-lf-uA7" firstAttribute="top" secondItem="eyt-lf-WOf" secondAttribute="bottom" id="921-Yw-IsB"/>
+                            <constraint firstItem="G8E-l7-QTb" firstAttribute="top" secondItem="MDm-lf-uA7" secondAttribute="bottom" constant="5" id="DaC-qK-4hz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eyt-lf-WOf" secondAttribute="trailing" constant="-20" id="HAd-Zm-udY"/>
+                            <constraint firstItem="VBY-gq-v8E" firstAttribute="top" secondItem="G8E-l7-QTb" secondAttribute="bottom" id="YPJ-0Y-Nth"/>
+                            <constraint firstItem="G8E-l7-QTb" firstAttribute="top" secondItem="MDm-lf-uA7" secondAttribute="bottom" constant="5" id="afB-cl-xif"/>
+                            <constraint firstItem="eyt-lf-WOf" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leadingMargin" constant="-20" id="at7-6I-pgF"/>
+                            <constraint firstItem="MDm-lf-uA7" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leadingMargin" constant="-20" id="bHf-GP-ajv"/>
+                            <constraint firstItem="MDm-lf-uA7" firstAttribute="top" secondItem="eyt-lf-WOf" secondAttribute="bottom" id="byi-RK-WPa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="MDm-lf-uA7" secondAttribute="trailing" constant="-20" id="v2H-h0-TId"/>
+                            <constraint firstItem="eyt-lf-WOf" firstAttribute="top" secondItem="hR0-74-jRp" secondAttribute="bottom" id="vTd-55-4wE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="G8E-l7-QTb" secondAttribute="trailing" constant="-20" id="wxp-Oq-6kL"/>
+                            <constraint firstItem="G8E-l7-QTb" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leadingMargin" constant="-20" id="yvZ-Tv-CFY"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="u71-32-SBe"/>
+                    <navigationItem key="navigationItem" title="WorstSpots" id="u71-32-SBe"/>
                     <connections>
                         <outlet property="searchBar" destination="eyt-lf-WOf" id="VRw-3k-8Jl"/>
+                        <outlet property="tableView" destination="G8E-l7-QTb" id="ZGr-et-jk5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fgb-4b-F1b" userLabel="First Responder" sceneMemberID="firstResponder"/>

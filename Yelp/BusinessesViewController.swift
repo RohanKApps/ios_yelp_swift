@@ -2,20 +2,25 @@
 //  BusinessesViewController.swift
 //  Yelp
 //
-//  Created by Timothy Lee on 4/23/15.
-//  Copyright (c) 2015 Timothy Lee. All rights reserved.
+//  Edited by Rohan Lee Katakam 1/11/16.
+//  Copyright (c) 2015 Rohan Katakam. All rights reserved.
 //
 
 import UIKit
-import MapKit
 
-class BusinessesViewController: UIViewController, UISearchBarDelegate {
+class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     var businesses: [Business]!
     var spots : [String : String] = [:]
     var input = String()
     var categoryArray : [String] = []
+    var names : [String] = []
+    var addresses : [String] = []
+    var ratings : [Double] = []
+    var distances : [String] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +28,26 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate {
         searchBar.delegate = self
     }
     
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return names.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath: indexPath)
+        cell.textLabel?.text = names[indexPath.row]
+        return cell
+    }
+    
     func searchBarSearchButtonClicked(searchBar: UISearchBar){
         input = searchBar.text!
         print(input)
+        
+        //Remove all Array Contents
+        names.removeAll()
+        addresses.removeAll()
+        ratings.removeAll()
+        distances.removeAll()
+        
         //Create Raw Array of Tags
         categoryArray = input.characters.split{$0 == ","}.map(String.init)
         
@@ -45,9 +67,63 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate {
             
             if businesses != nil{
                 for business in businesses {
-                    self.spots[business.name!] = business.address!
+                    //Add Name of Restaurant to Array
+                    self.names.append(business.name!)
+                    
+                    //Add Restaurant Address to Array
+                self.addresses.append(business.address!)
+                    
+                    //Add Restaurant Distance to Array
+                    self.distances.append(business.distance!)
+                    
+                //Add Rating of Restaurant to Ratings Array
+                    if ((business.ratingImageURL?.path?.rangeOfString("stars_large_1.png")) != nil){
+                        self.ratings.append(1.0)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_1_half.png")) != nil){
+                        self.ratings.append(1.5)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_2.png")) != nil){
+                        self.ratings.append(2.0)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_2_half.png")) != nil){
+                        self.ratings.append(2.5)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_3.png")) != nil){
+                        self.ratings.append(3.0)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_3_half.png")) != nil){
+                        self.ratings.append(3.5)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_4.png")) != nil){
+                        self.ratings.append(4.0)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_4_half.png")) != nil){
+                        self.ratings.append(4.5)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_5.png")) != nil){
+                        self.ratings.append(5.0)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_5_half.png")) != nil){
+                        self.ratings.append(5.5)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_6.png")) != nil){
+                        self.ratings.append(6.0)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_6_half.png")) != nil){
+                        self.ratings.append(6.5)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_7.png")) != nil){
+                        self.ratings.append(7.0)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_7_half.png")) != nil){
+                        self.ratings.append(7.5)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_8.png")) != nil){
+                        self.ratings.append(8.0)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_8_half.png")) != nil){
+                        self.ratings.append(8.5)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_9.png")) != nil){
+                        self.ratings.append(9.0)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_9_half.png")) != nil){
+                        self.ratings.append(9.5)
+                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_10.png")) != nil){
+                        self.ratings.append(10.0)
+                    }
+                    
+                    self.tableView.reloadData()
+                    
                     print(business.name!)
                     print(business.address!)
+                    print(business.ratingImageURL!)
+                    print(business.distance!)
+                    
                 }
             } else {
                 let alertController = UIAlertController(title: "Alert", message:
