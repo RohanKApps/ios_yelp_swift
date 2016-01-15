@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--WorstSpots-->
+        <!--WorstSpots 🍋-->
         <scene sceneID="5L9-Uz-lNK">
             <objects>
                 <viewController id="2xI-yr-O5N" customClass="BusinessesViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
@@ -72,7 +72,7 @@
                             <constraint firstItem="G8E-l7-QTb" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leadingMargin" constant="-20" id="yvZ-Tv-CFY"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="WorstSpots" id="u71-32-SBe"/>
+                    <navigationItem key="navigationItem" title="WorstSpots 🍋" id="u71-32-SBe"/>
                     <connections>
                         <outlet property="searchBar" destination="eyt-lf-WOf" id="VRw-3k-8Jl"/>
                         <outlet property="tableView" destination="G8E-l7-QTb" id="ZGr-et-jk5"/>

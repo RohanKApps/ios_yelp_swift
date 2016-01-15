@@ -19,6 +19,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
     var names : [String] = []
     var addresses : [String] = []
     var ratings : [Double] = []
+    var ratingsUrl : [String] = []
     var distances : [String] = []
     
     
@@ -34,7 +35,13 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath: indexPath)
-        cell.textLabel?.text = "\(names[indexPath.row]) (\(distances[indexPath.row])) -- \(ratings[indexPath.row])🌟"
+        cell.textLabel?.text = "\(names[indexPath.row]) (\(distances[indexPath.row]))"
+        
+        if let url = NSURL(string: ratingsUrl[indexPath.row]) {
+            if let data = NSData(contentsOfURL: url) {
+                cell.imageView!.image = UIImage(data: data)
+            }        
+        }
         return cell
     }
     
@@ -77,18 +84,25 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
                     self.distances.append(business.distance!)
                     
                 //Add Rating of Restaurant to Ratings Array
+                    self.ratingsUrl.append("\(business.ratingImageURL!)")
+                    
                     if ((business.ratingImageURL?.path?.rangeOfString("stars_large_1.png")) != nil){
                         self.ratings.append(1.0)
+                        
                     } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_1_half.png")) != nil){
                         self.ratings.append(1.5)
+                        
                     } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_2.png")) != nil){
                         self.ratings.append(2.0)
+                        
                     } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_2_half.png")) != nil){
                         self.ratings.append(2.5)
                     } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_3.png")) != nil){
                         self.ratings.append(3.0)
+                        
                     } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_3_half.png")) != nil){
                         self.ratings.append(3.5)
+                        
                     } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_4.png")) != nil){
                         self.ratings.append(4.0)
                     } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_4_half.png")) != nil){
@@ -154,3 +168,4 @@ extension String {
         return self[Range(start: start, end: end)]
     }
 }
+
