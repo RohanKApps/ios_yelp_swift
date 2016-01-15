@@ -34,7 +34,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath: indexPath)
-        cell.textLabel?.text = names[indexPath.row]
+        cell.textLabel?.text = "\(names[indexPath.row]) (\(distances[indexPath.row])) -- \(ratings[indexPath.row])🌟"
         return cell
     }
     
@@ -62,7 +62,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         print(categoryArray)
         
         //Implement Yelp API to find restaurants
-        Business.searchWithTerm("Restaurants", sort: .Distance, categories: categoryArray, deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
+        Business.searchWithTerm("Restaurants", sort: .HighestRated, categories: categoryArray, deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
             self.businesses = businesses
             
             if businesses != nil{
