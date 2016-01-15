@@ -18,9 +18,9 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
     var categoryArray : [String] = []
     var names : [String] = []
     var addresses : [String] = []
-    var ratings : [Double] = []
     var ratingsUrl : [String] = []
     var distances : [String] = []
+    var reviewCounts : [String] = []
     
     
     override func viewDidLoad() {
@@ -52,7 +52,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         //Remove all Array Contents
         names.removeAll()
         addresses.removeAll()
-        ratings.removeAll()
+        ratingsUrl.removeAll()
         distances.removeAll()
         
         //Create Raw Array of Tags
@@ -86,50 +86,8 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
                 //Add Rating of Restaurant to Ratings Array
                     self.ratingsUrl.append("\(business.ratingImageURL!)")
                     
-                    if ((business.ratingImageURL?.path?.rangeOfString("stars_large_1.png")) != nil){
-                        self.ratings.append(1.0)
-                        
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_1_half.png")) != nil){
-                        self.ratings.append(1.5)
-                        
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_2.png")) != nil){
-                        self.ratings.append(2.0)
-                        
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_2_half.png")) != nil){
-                        self.ratings.append(2.5)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_3.png")) != nil){
-                        self.ratings.append(3.0)
-                        
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_3_half.png")) != nil){
-                        self.ratings.append(3.5)
-                        
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_4.png")) != nil){
-                        self.ratings.append(4.0)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_4_half.png")) != nil){
-                        self.ratings.append(4.5)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_5.png")) != nil){
-                        self.ratings.append(5.0)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_5_half.png")) != nil){
-                        self.ratings.append(5.5)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_6.png")) != nil){
-                        self.ratings.append(6.0)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_6_half.png")) != nil){
-                        self.ratings.append(6.5)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_7.png")) != nil){
-                        self.ratings.append(7.0)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_7_half.png")) != nil){
-                        self.ratings.append(7.5)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_8.png")) != nil){
-                        self.ratings.append(8.0)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_8_half.png")) != nil){
-                        self.ratings.append(8.5)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_9.png")) != nil){
-                        self.ratings.append(9.0)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_9_half.png")) != nil){
-                        self.ratings.append(9.5)
-                    } else if ((business.ratingImageURL?.path?.rangeOfString("stars_large_10.png")) != nil){
-                        self.ratings.append(10.0)
-                    }
+                    //Add Review Count of Restaurant to Review Count Array
+                    self.reviewCounts.append("\(business.reviewCount!)")
                     
                     self.tableView.reloadData()
                     
@@ -137,8 +95,18 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
                     print(business.address!)
                     print(business.ratingImageURL!)
                     print(business.distance!)
+                    print(business.reviewCount!)
                     
                 }
+                //Optomize Arrays to show the five worst
+                self.names = self.optomizeArray(self.names)
+                self.addresses = self.optomizeArray(self.addresses)
+                self.ratingsUrl = self.optomizeArray(self.ratingsUrl)
+                self.distances = self.optomizeArray(self.distances)
+                self.reviewCounts = self.optomizeArray(self.reviewCounts)
+                
+                self.tableView.reloadData()
+                
             } else {
                 let alertController = UIAlertController(title: "Alert", message:
                     "No restuarants were found under the query: \(self.input)", preferredStyle: UIAlertControllerStyle.Alert)
@@ -148,7 +116,16 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
             }
         }
     }
-
+    
+    func optomizeArray(var arr: [String]) -> [String]{
+        if arr.count <= 5 {
+            arr = arr.reverse()
+            return arr
+        } else {
+            arr = [arr[arr.count - 1], arr[arr.count - 2], arr[arr.count - 3], arr[arr.count - 4], arr[arr.count - 5]]
+            return arr
+        }
+    }
 }
 
 //String Extension for getting char at nth location of String
