@@ -1,6 +1,6 @@
 //
 //  BusinessesViewController.swift
-//  Yelp
+//  WorstSpots
 //
 //  Edited by Rohan Lee Katakam 1/11/16.
 //  Copyright (c) 2015 Rohan Katakam. All rights reserved.
@@ -10,6 +10,7 @@ import UIKit
 
 class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
 
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     var businesses: [Business]!
@@ -21,6 +22,12 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
     var ratingsUrl : [String] = []
     var distances : [String] = []
     var reviewCounts : [String] = []
+    
+    var nameInst = String()
+    var addressInst = String()
+    var ratingUrlInst = String()
+    var distanceInst = String()
+    var reviewCountInst = String()
     
     
     override func viewDidLoad() {
@@ -45,7 +52,33 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         return cell
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let dvc = segue.destinationViewController as! DetailViewController
+        dvc.name = nameInst
+        dvc.address = addressInst
+        dvc.ratingsImageUrl = ratingUrlInst
+        dvc.reviewCount = reviewCountInst
+        dvc.distance = distanceInst
+        print(ratingUrlInst)
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        if let cell = tableView.cellForRowAtIndexPath(indexPath){
+            print("This is \(names[indexPath.row])")
+            
+            nameInst = names[indexPath.row]
+            addressInst = addresses[indexPath.row]
+            ratingUrlInst = ratingsUrl[indexPath.row]
+            distanceInst = distances[indexPath.row]
+            reviewCountInst = reviewCounts[indexPath.row]
+            
+            performSegueWithIdentifier("detailSegue", sender: self)
+        }    
+    }
+    
     func searchBarSearchButtonClicked(searchBar: UISearchBar){
+        self.view.endEditing(true)
         input = searchBar.text!
         print(input)
         
@@ -54,6 +87,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         addresses.removeAll()
         ratingsUrl.removeAll()
         distances.removeAll()
+        reviewCounts.removeAll()
         
         //Create Raw Array of Tags
         categoryArray = input.characters.split{$0 == ","}.map(String.init)

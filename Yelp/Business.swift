@@ -1,6 +1,6 @@
 //
 //  Business.swift
-//  Yelp
+//  WorstSpots
 //
 //  Edited by Rohan Lee Katakam 1/11/16.
 //  Copyright (c) 2015 Rohan Katakam. All rights reserved.
