@@ -2,11 +2,12 @@
 //  YelpClient.swift
 //  WorstSpots
 //
-//  Edited by Rohan Lee Katakam 1/11/16.
+//  Edited by Rohan Katakam 1/11/16.
 //  Copyright (c) 2015 Rohan Katakam. All rights reserved.
 //
 
 import UIKit
+import CoreLocation
 
 // You can register for Yelp API keys here: http://www.yelp.com/developers/manage_api_keys
 let yelpConsumerKey = "vxKwwcR_NMQ7WaEiQBK_CA"
@@ -21,6 +22,7 @@ enum YelpSortMode: Int {
 class YelpClient: BDBOAuth1RequestOperationManager {
     var accessToken: String!
     var accessSecret: String!
+    
     
     class var sharedInstance : YelpClient {
         struct Static {
@@ -54,9 +56,9 @@ class YelpClient: BDBOAuth1RequestOperationManager {
     
     func searchWithTerm(term: String, sort: YelpSortMode?, categories: [String]?, deals: Bool?, completion: ([Business]!, NSError!) -> Void) -> AFHTTPRequestOperation {
         // For additional parameters, see http://www.yelp.com/developers/documentation/v2/search_api
-
+        
         // Default the location to San Francisco
-        var parameters: [String : AnyObject] = ["term": term, "ll": "37.785771,-122.406165"]
+        var parameters: [String : AnyObject] = ["term": term, "ll": "\(Coordinates.latitude),\(Coordinates.longitude)"]
 
         if sort != nil {
             parameters["sort"] = sort!.rawValue

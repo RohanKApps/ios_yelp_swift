@@ -7,12 +7,21 @@
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
-class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
+struct Coordinates {
+    static var latitude : CLLocationDegrees = CLLocationDegrees()
+    static var longitude : CLLocationDegrees = CLLocationDegrees()
+}
 
+class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
+
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    var manager : CLLocationManager = CLLocationManager()
+    
     var businesses: [Business]!
     var spots : [String : String] = [:]
     var input = String()
@@ -34,6 +43,18 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         super.viewDidLoad()
         searchBar.showsScopeBar = true
         searchBar.delegate = self
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        var location = locations[locations.count - 1]
+        
+        Coordinates.latitude = location.coordinate.latitude
+        Coordinates.longitude = location.coordinate.longitude
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -49,6 +70,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
                 cell.imageView!.image = UIImage(data: data)
             }        
         }
+        
         return cell
     }
     
