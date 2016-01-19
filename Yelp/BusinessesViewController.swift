@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
+//Global Coordinates
 struct Coordinates {
     static var currentLocation : CLLocation = CLLocation()
     static var latitude : CLLocationDegrees = CLLocationDegrees()
@@ -18,14 +19,13 @@ struct Coordinates {
 
 class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, GMSMapViewDelegate {
     
-
+    //Outlets and Location Manager
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     var manager : CLLocationManager = CLLocationManager()
     
-    
-
+    //Array Data
     var businesses: [Business]!
     var spots : [String : String] = [:]
     var input = String()
@@ -37,6 +37,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
     var reviewCounts : [String] = []
     var coordinates : [CLLocationCoordinate2D] = []
     
+    //Instance Variables for Segue
     var nameInst = String()
     var addressInst = String()
     var ratingUrlInst = String()
@@ -46,6 +47,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //Delegates and Location Manager Setup
         searchBar.showsScopeBar = true
         searchBar.delegate = self
         manager.delegate = self
@@ -54,7 +56,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         manager.startUpdatingLocation()
     }
     
-    
+    //Execute When Location Updated in the Manager
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         var location = locations[locations.count - 1]
         Coordinates.currentLocation = location
@@ -71,7 +73,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         }
     }
     
-    
+    //Execute if Authorization Changed
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
         if status == .AuthorizedWhenInUse {
@@ -85,6 +87,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         }
     }
     
+    //Function to get the full address of a short one
     func getFullAddress(var address: String) -> String{
         var fullAddresses : [String] = []
         var rawJSON : String = String()
@@ -118,10 +121,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
                     if let ipString = NSString(data:data!, encoding: NSUTF8StringEncoding) {
                         // Print what we got from the call
                         rawJSON = ipString as String
-                        /*print(rawJSON)*/
-                        
-                        ////////////////////
-                        
+
                         var data = rawJSON.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: false)
                         do {
                             var json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
@@ -158,11 +158,12 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         return address
     }
 
-
+    //Return length of Names Array and set to the size of TableView
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return names.count
     }
     
+    //Update each cell with information from Yelp API
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath: indexPath)
         cell.textLabel?.text = "\(names[indexPath.row]) (\(distances[indexPath.row]))"
@@ -176,6 +177,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         return cell
     }
     
+    //Prepare for Segue to Execute right before Segue
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let dvc = segue.destinationViewController as! DetailViewController
         dvc.name = nameInst
@@ -187,7 +189,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
     }
     
     
-    
+    //Execute if cell tapped
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         if let cell = tableView.cellForRowAtIndexPath(indexPath){
@@ -203,6 +205,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         }    
     }
     
+    //Function to plot addresses
     func plotAddresses(addressArr: [String]){
         var markersArray : [GMSMarker] = []
         var placeNames = names
@@ -241,6 +244,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         mapView.animateToZoom(6)
     }
     
+    //Search Button Clicked Action
     func searchBarSearchButtonClicked(searchBar: UISearchBar){
         self.view.endEditing(true)
         input = searchBar.text!
@@ -326,6 +330,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         }
     }
     
+    //Function that optomizes array to show worst restaurants in the Array
     func optomizeArray(var arr: [String]) -> [String]{
         if arr.count <= 5 {
             arr = arr.reverse()
