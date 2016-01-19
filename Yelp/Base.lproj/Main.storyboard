@@ -9,7 +9,7 @@
         <!--Businesses View Controller-->
         <scene sceneID="5L9-Uz-lNK">
             <objects>
-                <viewController id="2xI-yr-O5N" customClass="BusinessesViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="2xI-yr-O5N" customClass="BusinessesViewController" customModule="WorstSpots" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hR0-74-jRp"/>
                         <viewControllerLayoutGuide type="bottom" id="VBY-gq-v8E"/>
@@ -25,9 +25,6 @@
                                     <outlet property="delegate" destination="2xI-yr-O5N" id="BI8-A1-ngO"/>
                                 </connections>
                             </searchBar>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MDm-lf-uA7">
-                                <rect key="frame" x="0.0" y="108" width="600" height="257"/>
-                            </mapView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="G8E-l7-QTb">
                                 <rect key="frame" x="0.0" y="366" width="600" height="234"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -55,20 +52,22 @@
                                     <outlet property="delegate" destination="2xI-yr-O5N" id="wUg-en-wOo"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sjA-Jy-8hJ" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="108" width="600" height="257"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="MDm-lf-uA7" firstAttribute="top" secondItem="eyt-lf-WOf" secondAttribute="bottom" id="921-Yw-IsB"/>
-                            <constraint firstItem="G8E-l7-QTb" firstAttribute="top" secondItem="MDm-lf-uA7" secondAttribute="bottom" constant="5" id="DaC-qK-4hz"/>
+                            <constraint firstItem="G8E-l7-QTb" firstAttribute="top" secondItem="sjA-Jy-8hJ" secondAttribute="bottom" constant="1" id="2BT-Mr-zkW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="eyt-lf-WOf" secondAttribute="trailing" constant="-20" id="HAd-Zm-udY"/>
                             <constraint firstItem="VBY-gq-v8E" firstAttribute="top" secondItem="G8E-l7-QTb" secondAttribute="bottom" id="YPJ-0Y-Nth"/>
-                            <constraint firstItem="G8E-l7-QTb" firstAttribute="top" secondItem="MDm-lf-uA7" secondAttribute="bottom" constant="5" id="afB-cl-xif"/>
                             <constraint firstItem="eyt-lf-WOf" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leadingMargin" constant="-20" id="at7-6I-pgF"/>
-                            <constraint firstItem="MDm-lf-uA7" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leadingMargin" constant="-20" id="bHf-GP-ajv"/>
-                            <constraint firstItem="MDm-lf-uA7" firstAttribute="top" secondItem="eyt-lf-WOf" secondAttribute="bottom" id="byi-RK-WPa"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="MDm-lf-uA7" secondAttribute="trailing" constant="-20" id="v2H-h0-TId"/>
+                            <constraint firstItem="sjA-Jy-8hJ" firstAttribute="top" secondItem="eyt-lf-WOf" secondAttribute="bottom" id="ekP-si-vNc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sjA-Jy-8hJ" secondAttribute="trailing" constant="-20" id="rv8-kw-NtA"/>
                             <constraint firstItem="eyt-lf-WOf" firstAttribute="top" secondItem="hR0-74-jRp" secondAttribute="bottom" id="vTd-55-4wE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="G8E-l7-QTb" secondAttribute="trailing" constant="-20" id="wxp-Oq-6kL"/>
+                            <constraint firstItem="sjA-Jy-8hJ" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leadingMargin" constant="-20" id="yM0-j2-QtV"/>
                             <constraint firstItem="G8E-l7-QTb" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leadingMargin" constant="-20" id="yvZ-Tv-CFY"/>
                         </constraints>
                     </view>
@@ -86,6 +85,7 @@
                         </view>
                     </navigationItem>
                     <connections>
+                        <outlet property="mapView" destination="sjA-Jy-8hJ" id="0Zc-yV-k6q"/>
                         <outlet property="searchBar" destination="eyt-lf-WOf" id="VRw-3k-8Jl"/>
                         <outlet property="tableView" destination="G8E-l7-QTb" id="ZGr-et-jk5"/>
                         <segue destination="Uba-J4-GbY" kind="show" identifier="detailSegue" id="MHn-My-TBJ"/>
@@ -98,7 +98,7 @@
         <!--Title-->
         <scene sceneID="EnC-Ng-ypm">
             <objects>
-                <viewController id="Uba-J4-GbY" customClass="DetailViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Uba-J4-GbY" customClass="DetailViewController" customModule="WorstSpots" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TaS-dH-RrJ"/>
                         <viewControllerLayoutGuide type="bottom" id="k87-ZZ-YDo"/>
@@ -115,7 +115,7 @@
                                 <attributedString key="attributedText">
                                     <fragment content="Barrington High School">
                                         <attributes>
-                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="30" name="Courier"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -128,7 +128,7 @@
                                 <attributedString key="attributedText">
                                     <fragment content="616 W Main St, Barrington, IL 60010">
                                         <attributes>
-                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="20" name="Courier"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -141,7 +141,7 @@
                                 <attributedString key="attributedText">
                                     <fragment content="Approximately: 12 mi away">
                                         <attributes>
-                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="25" name="Courier"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -157,7 +157,7 @@
                                 <attributedString key="attributedText">
                                     <fragment content="From 132 Reviews">
                                         <attributes>
-                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="25" name="Courier"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>

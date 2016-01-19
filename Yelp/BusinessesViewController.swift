@@ -2,7 +2,7 @@
 //  BusinessesViewController.swift
 //  WorstSpots
 //
-//  Edited by Rohan Lee Katakam 1/11/16.
+//  Edited by Rohan Katakam 1/11/16.
 //  Copyright (c) 2015 Rohan Katakam. All rights reserved.
 //
 
@@ -11,17 +11,21 @@ import MapKit
 import CoreLocation
 
 struct Coordinates {
+    static var currentLocation : CLLocation = CLLocation()
     static var latitude : CLLocationDegrees = CLLocationDegrees()
     static var longitude : CLLocationDegrees = CLLocationDegrees()
 }
 
-class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
+class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, GMSMapViewDelegate {
     
 
+    @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     var manager : CLLocationManager = CLLocationManager()
     
+    
+
     var businesses: [Business]!
     var spots : [String : String] = [:]
     var input = String()
@@ -31,6 +35,7 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
     var ratingsUrl : [String] = []
     var distances : [String] = []
     var reviewCounts : [String] = []
+    var coordinates : [CLLocationCoordinate2D] = []
     
     var nameInst = String()
     var addressInst = String()
@@ -49,13 +54,39 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         manager.startUpdatingLocation()
     }
     
+    
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         var location = locations[locations.count - 1]
-        
+        Coordinates.currentLocation = location
         Coordinates.latitude = location.coordinate.latitude
         Coordinates.longitude = location.coordinate.longitude
         
+        if let location = locations.first {
+            
+            // 7
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+            
+            // 8
+            manager.stopUpdatingLocation()
+        }
     }
+    
+    // 2
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        // 3
+        if status == .AuthorizedWhenInUse {
+            
+            // 4
+            manager.startUpdatingLocation()
+            
+            //5
+            mapView.myLocationEnabled = true
+            mapView.settings.myLocationButton = true
+        }
+    }
+    
+    // 6
+
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return names.count
@@ -84,6 +115,8 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
         print(ratingUrlInst)
     }
     
+    
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         if let cell = tableView.cellForRowAtIndexPath(indexPath){
@@ -97,6 +130,16 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
             
             performSegueWithIdentifier("detailSegue", sender: self)
         }    
+    }
+    
+    func plotAddresses(addresses: [String]){
+        let  position = CLLocationCoordinate2DMake(10, 10)
+        let marker = GMSMarker(position: position)
+        marker.title = "Hello World"
+        marker.map = mapView
+        for(var i = 0; i < addresses.count; i++){
+            print("Im done")
+        }
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar){
@@ -145,6 +188,8 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
                     //Add Review Count of Restaurant to Review Count Array
                     self.reviewCounts.append("\(business.reviewCount!)")
                     
+                    
+                    
                     self.tableView.reloadData()
                     
                     print(business.name!)
@@ -160,7 +205,8 @@ class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableVi
                 self.ratingsUrl = self.optomizeArray(self.ratingsUrl)
                 self.distances = self.optomizeArray(self.distances)
                 self.reviewCounts = self.optomizeArray(self.reviewCounts)
-                
+
+                self.plotAddresses(self.addresses)
                 self.tableView.reloadData()
                 
             } else {

@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  WorstSpots
 //
-//  Edited by Rohan Lee Katakam 1/11/16.
+//  Edited by Rohan Katakam 1/11/16.
 //  Copyright (c) 2015 Rohan Katakam. All rights reserved.
 //
 
@@ -12,10 +12,12 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    let googleMapsApiKey = "AIzaSyDv5-4i2KvNmV1B10ThwvrQEgjs4qgDWWw"
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        GMSServices.provideAPIKey(googleMapsApiKey)
         return true
     }
 
